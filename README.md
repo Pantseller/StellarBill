@@ -1,90 +1,79 @@
 # StellarBill 💸
 
-A minimal invoicing application built on Stellar.
-
-StellarBill demonstrates how to create, share, and pay invoices using Stellar wallets, with a focus on simplicity, clarity, and developer experience.
+A minimal invoicing app built on Stellar. Create invoices, share them, and accept XLM payments — all from the browser.
 
 ---
 
-## ✨ Overview
+## ✨ Features
 
-StellarBill is a lightweight project designed to show how invoicing can work on Stellar without unnecessary complexity.
-
-It allows users to:
-
-- Create simple invoices
-- Share payment details
-- Pay invoices using a Stellar wallet
-- Track payment status
+- Create an invoice with an amount and recipient address
+- Auto-generate a unique invoice ID
+- Pay invoices via [Freighter](https://www.freighter.app/) wallet
+- See real-time payment status (paid / unpaid)
 
 ---
 
 ## 🏗 Project Structure
-stellar-bill/
-├── contracts/ # Soroban smart contracts (optional/minimal)
-├── frontend/ # React app (Vite)
-├── lib/ # Helper functions (wallet, payments, formatting)
-├── docs/ # Documentation
 
+```
+StellarBill/
+├── contracts/        # Soroban smart contract (Rust) — stores invoice state on-chain
+├── frontend/         # React + Vite UI
+├── lib/              # Shared helpers: wallet connection, payments, formatting
+└── docs/             # API and contract reference
+```
 
 ---
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+### Prerequisites
+
+- Node.js 18+
+- [Freighter](https://www.freighter.app/) browser extension, set to **Testnet**
+- A funded testnet account — get one at [friendbot.stellar.org](https://friendbot.stellar.org)
+
+### Run locally
 
 ```bash
-git clone https://github.com/Haroldwonder/stellarbill.git
-cd stellarbill
-2. Install frontend dependencies
-cd frontend
+git clone https://github.com/Pantseller/stellarbill.git
+cd stellarbill/frontend
 npm install
-3. Run the app
 npm run dev
-🔌 Core Features
-Create an invoice (amount + recipient)
-Generate a unique invoice ID
-Pay invoices via Stellar wallet (Freighter)
-View invoice status (paid / unpaid)
-🧠 Design Philosophy
+```
 
-This project is intentionally minimal.
-
-It is built to be:
-
-Easy to understand
-Easy to extend
-Friendly for contributors
-A clear example of Stellar-based payments
-📌 What This Project Is NOT
-Not a full SaaS product
-Not production-ready billing software
-Not feature-heavy
-
-This is a foundation project, not a finished system.
-
-🧪 Possible Extensions
-Recurring invoices
-Invoice history
-PDF invoice generation
-Backend storage
-Multi-user support
-🤝 Contributing
-
-Contributions are welcome.
-
-To get started:
-
-Fork the repository
-Create a new branch
-Make your changes
-Submit a pull request
-
-Small improvements, bug fixes, and documentation updates are encouraged.
-
-📄 License
-
-MIT
-
+App runs at `http://localhost:5173`.
 
 ---
+
+## 🔧 How It Works
+
+1. Fill in an amount (XLM) and a recipient Stellar address
+2. Click **Generate Invoice** — a unique ID is created client-side
+3. Click **Pay Now** — Freighter signs and submits the transaction to Horizon testnet
+4. Status updates to **paid** on success
+
+---
+
+## 📦 Contract (Optional)
+
+The Soroban contract in `/contracts/invoice` mirrors invoice state on-chain.
+
+```bash
+cd contracts
+cargo build --release --target wasm32-unknown-unknown
+```
+
+Requires Rust and [`soroban-cli`](https://soroban.stellar.org/docs/getting-started/setup).
+
+---
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup instructions and contribution guidelines.
+
+---
+
+## 📄 License
+
+MIT
