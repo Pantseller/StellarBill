@@ -1,4 +1,4 @@
-# StellarBill 💸
+# StellarBill 
 
 **Open-source global invoicing and payment infrastructure built on Stellar.**
 
