@@ -1,80 +1,186 @@
 # Contributing to StellarBill
 
-Thanks for your interest in contributing! This guide will get you up and running quickly.
+Thank you for your interest in contributing to StellarBill — open-source invoicing infrastructure for the Stellar ecosystem.
+
+This document covers everything you need to get started.
 
 ---
 
-## Setup
+## Table of Contents
+
+- [Code of Conduct](#code-of-conduct)
+- [Ways to Contribute](#ways-to-contribute)
+- [Development Setup](#development-setup)
+- [Project Structure](#project-structure)
+- [Submitting Changes](#submitting-changes)
+- [Working on Smart Contracts](#working-on-smart-contracts)
+- [Style Guide](#style-guide)
+- [Getting Help](#getting-help)
+
+---
+
+## Code of Conduct
+
+Be respectful, constructive, and inclusive. We follow the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+
+---
+
+## Ways to Contribute
+
+- **Bug reports** — open an issue with reproduction steps
+- **Feature requests** — open an issue describing the use case
+- **Code** — pick up a `good first issue` or `help wanted` issue
+- **Documentation** — improve docs, fix typos, add examples
+- **Testing** — add unit tests, integration tests, or manual test reports
+- **Design** — UI/UX improvements, Figma mockups
+- **Translations** — help localize the app for emerging markets
+
+---
+
+## Development Setup
 
 ### Prerequisites
 
-- Node.js 18+
-- [Freighter wallet](https://www.freighter.app/) browser extension (for testing payments)
-- Rust + `soroban-cli` (only if working on contracts)
+| Tool | Version |
+|---|---|
+| Node.js | 18+ |
+| npm | 9+ |
+| Rust | stable (for contracts) |
+| soroban-cli | latest |
+| Freighter wallet | browser extension |
 
-### Install frontend dependencies
+### Frontend
 
 ```bash
-cd frontend
+git clone https://github.com/your-org/stellarbill.git
+cd stellarbill/frontend
 npm install
-```
-
----
-
-## Running the App
-
-```bash
-cd frontend
+cp .env.example .env
 npm run dev
 ```
 
-The app runs at `http://localhost:5173` by default.
+App runs at `http://localhost:5173`.
 
-To test payments, make sure Freighter is installed and set to **Testnet**.  
-You can fund a testnet account at [friendbot.stellar.org](https://friendbot.stellar.org).
+### Testnet setup
 
----
+1. Install [Freighter](https://www.freighter.app/) and switch to **Testnet**
+2. Fund your testnet account at [friendbot.stellar.org](https://friendbot.stellar.org)
+3. For USDC testing, use the testnet USDC issuer in `lib/stellar.ts`
 
-## Project Structure
-
-```
-/contracts   # Soroban smart contract (Rust)
-/frontend    # React + Vite UI
-/lib         # Shared helpers (wallet, payments, formatting)
-/docs        # Documentation
-```
-
----
-
-## Working on the Contract
-
-Requires [Rust](https://rustup.rs/) and [soroban-cli](https://soroban.stellar.org/docs/getting-started/setup).
+### Smart contracts
 
 ```bash
+# Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# Add WASM target
+rustup target add wasm32-unknown-unknown
+
+# Install soroban-cli
+cargo install --locked soroban-cli
+
+# Build contracts
 cd contracts
 cargo build --release --target wasm32-unknown-unknown
 ```
 
 ---
 
-## How to Contribute
+## Project Structure
 
-1. Fork the repository
-2. Create a branch: `git checkout -b my-feature`
-3. Make your changes
-4. Commit: `git commit -m "describe your change"`
-5. Push and open a pull request
-
-### Guidelines
-
-- Keep changes small and focused
-- Add comments for non-obvious logic
-- Don't add dependencies without discussion
-- Bug fixes and documentation improvements are always welcome
+```
+StellarBill/
+├── contracts/invoice/     # Soroban smart contract (Rust)
+├── frontend/src/
+│   ├── components/        # Shared UI components
+│   ├── pages/             # Route-level pages
+│   ├── store/             # Zustand global state
+│   └── types/             # TypeScript types
+├── lib/
+│   ├── stellar.ts         # Stellar SDK integration
+│   └── helpers.ts         # Utilities and formatters
+└── docs/                  # Documentation
+```
 
 ---
 
-## Testnet vs Mainnet
+## Submitting Changes
 
-This project defaults to **Stellar Testnet**. Do not use real funds for testing.  
-The network can be changed in `lib/stellar.js` by updating `HORIZON_URL` and `NETWORK_PASSPHRASE`.
+1. **Fork** the repository
+2. **Create a branch**: `git checkout -b feat/your-feature` or `fix/your-bug`
+3. **Make your changes** — keep commits small and focused
+4. **Test** your changes manually on testnet
+5. **Commit**: `git commit -m "feat: add PDF export for invoices"`
+6. **Push**: `git push origin feat/your-feature`
+7. **Open a Pull Request** against `main`
+
+### Commit message format
+
+We use [Conventional Commits](https://www.conventionalcommits.org/):
+
+```
+feat: add recurring invoice support
+fix: correct USDC amount calculation
+docs: update deployment guide
+chore: upgrade stellar-sdk to v12.3
+```
+
+### PR checklist
+
+- [ ] Changes are scoped and focused
+- [ ] No new dependencies added without discussion
+- [ ] TypeScript types are correct (no `any`)
+- [ ] Tested on Stellar testnet
+- [ ] Documentation updated if needed
+
+---
+
+## Working on Smart Contracts
+
+The Soroban contract lives in `contracts/invoice/src/lib.rs`.
+
+**Important rules:**
+- All state changes must emit events
+- Auth checks (`require_auth`) must be present on all write functions
+- Test with `cargo test` before submitting
+- Do not change the public interface without a migration plan
+
+```bash
+# Run contract tests
+cd contracts
+cargo test
+
+# Build for deployment
+cargo build --release --target wasm32-unknown-unknown
+```
+
+---
+
+## Style Guide
+
+### TypeScript / React
+
+- Functional components only
+- Explicit TypeScript types — no `any`
+- Tailwind for all styling — no inline styles
+- Keep components small and single-purpose
+- Co-locate component logic with the component
+
+### Rust / Soroban
+
+- Follow standard Rust formatting (`cargo fmt`)
+- Document all public functions with `///` comments
+- Panic with descriptive messages
+- Keep contract storage keys in the `DataKey` enum
+
+---
+
+## Getting Help
+
+- Open a [GitHub Discussion](https://github.com/your-org/stellarbill/discussions)
+- Join the [Stellar Developer Discord](https://discord.gg/stellar)
+- Tag your issue with `question` for community help
+
+---
+
+We appreciate every contribution, no matter how small. Thank you for helping build financial infrastructure for the world. 🌍

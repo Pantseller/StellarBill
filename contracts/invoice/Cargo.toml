@@ -1,16 +1,18 @@
 [package]
-name = "invoice"
-version = "0.1.0"
+name = "stellarbill-invoice-registry"
+version = "1.0.0"
 edition = "2021"
+description = "StellarBill on-chain invoice registry — Soroban smart contract"
+license = "MIT"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-soroban-sdk = { version = "20.0.0", features = ["alloc"] }
+soroban-sdk = { version = "21.0.0", features = ["alloc"] }
 
 [dev-dependencies]
-soroban-sdk = { version = "20.0.0", features = ["testutils"] }
+soroban-sdk = { version = "21.0.0", features = ["testutils"] }
 
 [profile.release]
 opt-level = "z"

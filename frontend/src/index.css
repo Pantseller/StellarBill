@@ -1,100 +1,72 @@
-/* Base */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-  font-family: system-ui, sans-serif;
-  background: #f5f7fa;
-  color: #1a1a2e;
-  min-height: 100vh;
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans antialiased;
+  }
+
+  * {
+    @apply border-slate-800;
+  }
 }
 
-.app {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+@layer components {
+  .card {
+    @apply bg-slate-900 border border-slate-800 rounded-2xl p-6;
+  }
+
+  .input {
+    @apply w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5
+           text-slate-100 placeholder-slate-500 text-sm
+           focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent
+           transition-colors;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-slate-300 mb-1.5;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-brand-600 hover:bg-brand-500 text-white
+           font-semibold text-sm px-5 py-2.5 rounded-xl
+           transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-slate-800 hover:bg-slate-700 text-slate-200
+           font-semibold text-sm px-5 py-2.5 rounded-xl
+           transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-success {
+    @apply inline-flex items-center justify-center gap-2
+           bg-emerald-600 hover:bg-emerald-500 text-white
+           font-semibold text-sm px-5 py-2.5 rounded-xl
+           transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2
+           bg-red-600 hover:bg-red-500 text-white
+           font-semibold text-sm px-5 py-2.5 rounded-xl
+           transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .badge-paid    { @apply bg-emerald-500/20 text-emerald-400; }
+  .badge-unpaid  { @apply bg-amber-500/20 text-amber-400; }
+  .badge-overdue { @apply bg-red-500/20 text-red-400; }
+  .badge-draft   { @apply bg-slate-500/20 text-slate-400; }
+  .badge-cancelled { @apply bg-slate-600/20 text-slate-500; }
+
+  .stat-card {
+    @apply card flex flex-col gap-1;
+  }
 }
-
-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-header h1 { font-size: 2rem; }
-header p  { color: #666; margin-top: 0.25rem; }
-
-/* Card */
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 1.75rem;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-}
-
-.card h2 { margin-bottom: 1.25rem; font-size: 1.1rem; }
-
-/* Form */
-.field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-.field label { font-size: 0.85rem; font-weight: 600; color: #444; }
-.field input {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.field input:focus { border-color: #6c63ff; }
-
-/* Buttons */
-button {
-  width: 100%;
-  padding: 0.7rem;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.btn-primary   { background: #6c63ff; color: #fff; }
-.btn-success   { background: #22c55e; color: #fff; }
-.btn-secondary { background: #e5e7eb; color: #333; margin-top: 0.75rem; }
-
-button:not(:disabled):hover { opacity: 0.88; }
-
-/* Invoice detail rows */
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
-  font-size: 0.9rem;
-}
-.detail-row:last-of-type { border-bottom: none; }
-.detail-row span:first-child { color: #888; }
-.detail-row span:last-child  { font-weight: 600; word-break: break-all; text-align: right; max-width: 65%; }
-
-/* Status badge */
-.badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-.badge-unpaid { background: #fef3c7; color: #b45309; }
-.badge-paid   { background: #dcfce7; color: #15803d; }
-
-/* Feedback message */
-.message {
-  margin-top: 1rem;
-  padding: 0.65rem 0.9rem;
-  border-radius: 8px;
-  font-size: 0.88rem;
-  font-weight: 500;
-}
-.message-success { background: #dcfce7; color: #15803d; }
-.message-error   { background: #fee2e2; color: #b91c1c; }

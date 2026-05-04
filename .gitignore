@@ -1,5 +1,17 @@
 node_modules/
 dist/
-target/
 .env
-*.wasm
+*.local
+
+# Rust / Soroban
+target/
+Cargo.lock
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
